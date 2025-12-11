@@ -9,6 +9,7 @@ import 'detox_buddy.dart';
 import 'healthy_life_support.dart';
 import 'detox_mode_new.dart';
 import 'landing_page.dart';
+import 'gamification_page.dart';
 
 const Color kPrimaryColor = Color(0xFF2E9D8A);
 const Color kBackgroundColor = Color(0xFFF5F5DC);
@@ -166,7 +167,14 @@ class DashboardPage extends StatelessWidget {
               _DashboardCard(
                 icon: "🏆",
                 label: 'Gamification\n& Motivation',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GamificationPage(),
+                    ),
+                  );
+                },
               ),
               _DashboardCard(
                 icon: "🧘",

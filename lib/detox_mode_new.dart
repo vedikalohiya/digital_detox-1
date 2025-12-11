@@ -1180,7 +1180,7 @@ class _LimitDialogState extends State<_LimitDialog> {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: [15, 30, 45, 60, 90, 120].map((mins) {
+            children: [2, 5, 10, 15, 30, 45, 60, 90, 120].map((mins) {
               return ChoiceChip(
                 label: Text('${mins}m'),
                 selected: _selectedMinutes == mins,

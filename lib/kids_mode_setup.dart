@@ -500,9 +500,9 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
           // Slider
           Slider(
             value: _selectedMinutes.toDouble(),
-            min: 5,
+            min: 2,
             max: 180,
-            divisions: 35,
+            divisions: 178,
             activeColor: Colors.purple,
             label: '$_selectedMinutes min',
             onChanged: (value) {
@@ -519,7 +519,7 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
             spacing: 10,
             runSpacing: 10,
             alignment: WrapAlignment.center,
-            children: [15, 30, 45, 60, 90, 120].map((minutes) {
+            children: [2, 5, 15, 30, 45, 60, 90, 120].map((minutes) {
               return ChoiceChip(
                 label: Text('$minutes min'),
                 selected: _selectedMinutes == minutes,

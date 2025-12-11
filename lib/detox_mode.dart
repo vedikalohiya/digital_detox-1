@@ -751,9 +751,9 @@ class _EditLimitDialogState extends State<_EditLimitDialog> {
           ),
           Slider(
             value: selectedMinutes.toDouble(),
-            min: 5,
+            min: 2,
             max: 180,
-            divisions: 35,
+            divisions: 178,
             activeColor: widget.app.color,
             onChanged: (value) {
               setState(() {
@@ -764,7 +764,7 @@ class _EditLimitDialogState extends State<_EditLimitDialog> {
           const SizedBox(height: 16),
           Wrap(
             spacing: 8,
-            children: [15, 30, 45, 60, 90, 120].map((mins) {
+            children: [2, 5, 15, 30, 45, 60, 90, 120].map((mins) {
               return ChoiceChip(
                 label: Text('${mins}m'),
                 selected: selectedMinutes == mins,
