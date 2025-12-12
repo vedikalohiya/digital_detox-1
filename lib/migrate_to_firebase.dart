@@ -3,13 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'database_helper.dart';
 
-/// ONE-TIME MIGRATION SCRIPT
-/// This migrates existing local database users to Firebase
-///
-/// HOW TO USE:
-/// 1. Add this button temporarily to your login page or profile page
-/// 2. Run it once to migrate
-/// 3. Remove this file after migration complete
 
 class MigrateToFirebaseButton extends StatelessWidget {
   const MigrateToFirebaseButton({super.key});
@@ -34,12 +27,9 @@ class MigrateToFirebaseButton extends StatelessWidget {
       }
 
       String email = localUser['email'] ?? '';
-
-      // Check if user is already logged in to Firebase
       User? firebaseUser = FirebaseAuth.instance.currentUser;
 
       if (firebaseUser != null && firebaseUser.email == email) {
-        // User is already logged in to Firebase, just update Firestore
         await _updateFirestoreProfile(firebaseUser, localUser);
 
         if (context.mounted) Navigator.pop(context);
