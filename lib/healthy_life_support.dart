@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'app_theme.dart';
 
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+// Using AppTheme colors for consistency
+const Color kPrimaryColor = AppTheme.primaryDeepTeal;
+const Color kBackgroundColor = AppTheme.coolWhite;
 
 class HealthyLifeSupportPage extends StatelessWidget {
   const HealthyLifeSupportPage({super.key});

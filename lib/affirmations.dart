@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'app_theme.dart';
 
 class AffirmationsPage extends StatefulWidget {
   const AffirmationsPage({super.key});
@@ -72,15 +73,15 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
     IconData icon;
     Color iconColor;
     if (_currentType == "Affirmation") {
-      bgColor = const Color(0xFFE0F7FA);
+      bgColor = AppTheme.lightTeal.withOpacity(0.2);
       icon = Icons.spa_rounded;
-      iconColor = const Color(0xFF2E9D8A);
+      iconColor = AppTheme.primaryDeepTeal;
     } else if (_currentType == "Joke") {
       bgColor = const Color(0xFFFFF8E1);
       icon = Icons.emoji_emotions;
       iconColor = Colors.orangeAccent;
     } else {
-      bgColor = const Color(0xFFF5F5DC);
+      bgColor = AppTheme.coolWhite;
       icon = Icons.lightbulb_outline;
       iconColor = Colors.amber.shade700;
     }
@@ -94,13 +95,13 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
         title: const Text(
           "Feel Good Zone",
           style: TextStyle(
-            color: Color(0xFF2E9D8A),
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
             fontSize: 24,
             letterSpacing: 1.1,
           ),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF2E9D8A)),
+        iconTheme: IconThemeData(color: AppTheme.primaryDeepTeal),
       ),
       body: Center(
         child: Padding(
@@ -114,9 +115,11 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                   ChoiceChip(
                     label: const Text("Affirmation"),
                     selected: _currentType == "Affirmation",
-                    selectedColor: const Color(0xFF2E9D8A),
+                    selectedColor: AppTheme.primaryDeepTeal,
                     labelStyle: TextStyle(
-                      color: _currentType == "Affirmation" ? Colors.white : Colors.black,
+                      color: _currentType == "Affirmation"
+                          ? Colors.white
+                          : Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                     onSelected: (_) => _showNew("Affirmation"),
@@ -127,7 +130,9 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                     selected: _currentType == "Joke",
                     selectedColor: Colors.orangeAccent,
                     labelStyle: TextStyle(
-                      color: _currentType == "Joke" ? Colors.white : Colors.black,
+                      color: _currentType == "Joke"
+                          ? Colors.white
+                          : Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                     onSelected: (_) => _showNew("Joke"),
@@ -138,7 +143,9 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                     selected: _currentType == "Thought",
                     selectedColor: Colors.amber,
                     labelStyle: TextStyle(
-                      color: _currentType == "Thought" ? Colors.white : Colors.black,
+                      color: _currentType == "Thought"
+                          ? Colors.white
+                          : Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                     onSelected: (_) => _showNew("Thought"),
@@ -161,11 +168,7 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                 child: Column(
                   key: ValueKey(_current + _currentType),
                   children: [
-                    Icon(
-                      icon,
-                      color: iconColor,
-                      size: 48,
-                    ),
+                    Icon(icon, color: iconColor, size: 48),
                     const SizedBox(height: 18),
                     Text(
                       _current,
@@ -174,7 +177,9 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                         fontSize: _currentType == "Joke" ? 22 : 24,
                         fontWeight: FontWeight.w600,
                         color: iconColor,
-                        fontFamily: _currentType == "Joke" ? "Comic Sans MS" : null,
+                        fontFamily: _currentType == "Joke"
+                            ? "Comic Sans MS"
+                            : null,
                         height: 1.4,
                       ),
                     ),
@@ -192,7 +197,7 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                       const Text(
                         "🌱 Breathe in, believe in yourself.",
                         style: TextStyle(
-                          color: Color(0xFF2E9D8A),
+                          color: AppTheme.primaryDeepTeal,
                           fontSize: 15,
                           fontStyle: FontStyle.italic,
                         ),
@@ -228,14 +233,17 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                 icon: const Icon(Icons.refresh_rounded, size: 22),
                 label: Text(
                   "Show Another",
-                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               const SizedBox(height: 18),
               Text(
                 "Choose what you need right now.",
                 style: TextStyle(
-                  color: Colors.teal.shade300,
+                  color: AppTheme.accentTeal,
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
                 ),

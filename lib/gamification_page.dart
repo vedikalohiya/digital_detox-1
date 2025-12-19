@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
+import 'app_theme.dart';
 
 class GamificationPage extends StatefulWidget {
   const GamificationPage({super.key});
@@ -9,25 +10,31 @@ class GamificationPage extends StatefulWidget {
   State<GamificationPage> createState() => _GamificationPageState();
 }
 
-class _GamificationPageState extends State<GamificationPage> with TickerProviderStateMixin {
-  // Theme Colors
-  static const Color kSpaceBlack = Color(0xFF0B0E14);
+class _GamificationPageState extends State<GamificationPage>
+    with TickerProviderStateMixin {
+  // Theme Colors - Using AppTheme
+  static const Color kSpaceBlack = AppTheme.primaryDeepTeal;
   static const Color kStarGold = Color(0xFFFFD700);
-  static const Color kNeonBlue = Color(0xFF00BFFF);
+  static const Color kNeonBlue = AppTheme.lightTeal;
 
   // State
   int _selectedIndex = 0; // 0 = Stargaze, 1 = Sky Map
-  
+
   // Timer State
   Timer? _timer;
   int _targetDuration = 20 * 60; // Default 20 mins
   int _currentDuration = 0;
   bool _isGazing = false;
   List<Point<double>> _stars = [];
-  
+
   // Constellation Logic
   final List<String> _constellationNames = [
-    "The Phoenix", "The Archer", "The Great Bear", "The Swan", "The Dragon", "The Lyre"
+    "The Phoenix",
+    "The Archer",
+    "The Great Bear",
+    "The Swan",
+    "The Dragon",
+    "The Lyre",
   ];
   List<Map<String, dynamic>> _mySkyMap = []; // Unlocked constellations
 
@@ -60,13 +67,10 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
       if (!mounted) return;
       setState(() {
         _currentDuration++;
-        
+
         // Add a new star every few seconds (visual only)
         if (_currentDuration % 5 == 0) {
-          _stars.add(Point(
-            Random().nextDouble(), 
-            Random().nextDouble(),
-          ));
+          _stars.add(Point(Random().nextDouble(), Random().nextDouble()));
         }
 
         if (_currentDuration >= _targetDuration) {
@@ -116,8 +120,8 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
       builder: (context) => AlertDialog(
         backgroundColor: kSpaceBlack,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: const BorderSide(color: kNeonBlue, width: 2),
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: kNeonBlue, width: 2),
         ),
         title: const Text(
           "Constellation Discovered!",
@@ -132,8 +136,8 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
             Text(
               constellation['name'],
               style: const TextStyle(
-                color: kNeonBlue, 
-                fontSize: 24, 
+                color: kNeonBlue,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Serif', // Adds a mystical feel
               ),
@@ -148,7 +152,10 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Add to Sky Map", style: TextStyle(color: kStarGold)),
+            child: const Text(
+              "Add to Sky Map",
+              style: TextStyle(color: kStarGold),
+            ),
           ),
         ],
       ),
@@ -168,10 +175,15 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
       children: [
         // Custom App Bar
         Container(
-          padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
+          padding: const EdgeInsets.only(
+            top: 50,
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [kSpaceBlack, Colors.blueGrey.shade900],
+              colors: [kSpaceBlack, AppTheme.softTeal],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -192,7 +204,10 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
                   ),
                   Text(
                     "Collect stars through focus",
-                    style: TextStyle(color: Colors.blueGrey.shade200, fontSize: 14),
+                    style: TextStyle(
+                      color: Colors.blueGrey.shade200,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
@@ -274,10 +289,14 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white12, width: 2),
               gradient: RadialGradient(
-                colors: [Colors.blueGrey.shade900, kSpaceBlack],
+                colors: [AppTheme.softTeal, kSpaceBlack],
               ),
             ),
-            child: const Icon(Icons.rocket_launch, size: 80, color: Colors.white24),
+            child: const Icon(
+              Icons.rocket_launch,
+              size: 80,
+              color: Colors.white24,
+            ),
           ),
           const SizedBox(height: 40),
           const Text(
@@ -310,7 +329,9 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
               backgroundColor: kNeonBlue,
               foregroundColor: Colors.black,
               minimumSize: const Size(double.infinity, 56),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               elevation: 0,
             ),
             child: const Text(
@@ -331,7 +352,7 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
           size: Size.infinite,
           painter: StarFieldPainter(_stars, _twinkleController.value),
         ),
-        
+
         // UI Overlay
         SafeArea(
           child: Column(
@@ -386,7 +407,10 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: kSpaceBlack,
-        title: const Text("Stop Stargazing?", style: TextStyle(color: Colors.white)),
+        title: const Text(
+          "Stop Stargazing?",
+          style: TextStyle(color: Colors.white),
+        ),
         content: const Text(
           "If you leave now, you will lose progress on this constellation.",
           style: TextStyle(color: Colors.white70),
@@ -414,7 +438,11 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.nights_stay_outlined, size: 80, color: Colors.white.withOpacity(0.1)),
+            Icon(
+              Icons.nights_stay_outlined,
+              size: 80,
+              color: Colors.white.withOpacity(0.1),
+            ),
             const SizedBox(height: 16),
             const Text(
               "Your sky is empty",
@@ -454,7 +482,7 @@ class _GamificationPageState extends State<GamificationPage> with TickerProvider
               Text(
                 item['name'],
                 style: const TextStyle(
-                  color: Colors.white, 
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -491,11 +519,11 @@ class StarFieldPainter extends CustomPainter {
 
     // Draw background stars (faint)
     for (int i = 0; i < 50; i++) {
-        // Random static stars
-        final x = (i * 137.5) % size.width;
-        final y = (i * 293.6) % size.height;
-        paint.color = Colors.white.withOpacity(0.1);
-        canvas.drawCircle(Offset(x, y), 1.0, paint);
+      // Random static stars
+      final x = (i * 137.5) % size.width;
+      final y = (i * 293.6) % size.height;
+      paint.color = Colors.white.withOpacity(0.1);
+      canvas.drawCircle(Offset(x, y), 1.0, paint);
     }
 
     // Draw collected stars (bright)
@@ -503,26 +531,26 @@ class StarFieldPainter extends CustomPainter {
       final point = stars[i];
       final x = point.x * size.width;
       final y = point.y * size.height;
-      
+
       // Twinkle effect
       final opacity = 0.5 + (0.5 * sin(twinkle * 2 * pi + i));
       paint.color = Colors.white.withOpacity(opacity.clamp(0.2, 1.0));
-      
+
       // Draw star glow
       canvas.drawCircle(Offset(x, y), 3.0, paint);
-      
+
       // Draw star core
       paint.color = Colors.white;
       canvas.drawCircle(Offset(x, y), 1.0, paint);
     }
-    
+
     // Draw connection lines if enough stars
     if (stars.length > 2) {
       final linePaint = Paint()
-        ..color = const Color(0xFF00BFFF).withOpacity(0.3)
+        ..color = AppTheme.accentTeal.withOpacity(0.3)
         ..strokeWidth = 1.0
         ..style = PaintingStyle.stroke;
-        
+
       final path = Path();
       path.moveTo(stars[0].x * size.width, stars[0].y * size.height);
       for (int i = 1; i < stars.length; i++) {

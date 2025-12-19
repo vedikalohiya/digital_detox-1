@@ -8,9 +8,12 @@ import 'package:usage_stats/usage_stats.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'firestore_service.dart';
 import 'parent_pin_service.dart';
+import 'app_theme.dart';
+import 'gamification_integration.dart';
 
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+// Using AppTheme colors for consistency
+const Color kPrimaryColor = AppTheme.primaryDeepTeal;
+const Color kBackgroundColor = AppTheme.coolWhite;
 
 // Models
 class AppInfo {
@@ -33,8 +36,10 @@ class _DetoxModeNewPageState extends State<DetoxModeNewPage> {
   List<AppInfo> _selectedApps = [];
   Map<String, int> _appLimits = {}; // packageName -> minutes
   final Map<String, int> _appUsageToday = {}; // packageName -> minutes used
-  final Map<String, bool> _fiveMinWarningShown = {}; // Track if 5-min warning sent
-  final Map<String, bool> _twoMinWarningShown = {}; // Track if 2-min warning sent
+  final Map<String, bool> _fiveMinWarningShown =
+      {}; // Track if 5-min warning sent
+  final Map<String, bool> _twoMinWarningShown =
+      {}; // Track if 2-min warning sent
   Timer? _monitoringTimer;
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -294,15 +299,25 @@ class _DetoxModeNewPageState extends State<DetoxModeNewPage> {
   }
 
   void _blockApp(AppInfo app) {
+    final usedMinutes = _appUsageToday[app.packageName] ?? 0;
+    
     // Save blocking session to Firestore
     _firestoreService.saveDetoxSession(
       appName: app.appName,
       packageName: app.packageName,
       limitMinutes: _appLimits[app.packageName] ?? 0,
-      usedMinutes: _appUsageToday[app.packageName] ?? 0,
+      usedMinutes: usedMinutes,
       timestamp: DateTime.now(),
       blockReason: 'Daily limit reached',
     );
+
+    // Award gamification XP for using detox mode
+    if (usedMinutes > 0) {
+      GamificationIntegration.onDetoxModeUsed(
+        blockedMinutes: usedMinutes,
+        isPeakHours: GamificationIntegration.isPeakHours(),
+      );
+    }
 
     // Show blocking overlay with animation
     showDialog(
@@ -507,18 +522,18 @@ class _DetoxModeNewPageState extends State<DetoxModeNewPage> {
                 final success = await _parentPinService.verifyPin(
                   pinController.text,
                 );
-                
+
                 if (!mounted) return;
-                
+
                 if (success) {
                   // Extend time by 15 minutes
                   setState(() {
                     _appLimits[app.packageName] =
                         (_appLimits[app.packageName] ?? 0) + 15;
                   });
-                  
+
                   Navigator.pop(context);
-                  
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('✅ Unlocked ${app.appName} for 15 minutes'),

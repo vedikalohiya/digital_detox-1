@@ -3,9 +3,11 @@ import 'meditation.dart';
 import 'journal.dart';
 import 'mood_tracker.dart';
 import 'affirmations.dart';
+import 'app_theme.dart';
 
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+// Using AppTheme colors for consistency
+const Color kPrimaryColor = AppTheme.primaryDeepTeal;
+const Color kBackgroundColor = AppTheme.coolWhite;
 
 class MentalHealthToolsPage extends StatelessWidget {
   const MentalHealthToolsPage({super.key});

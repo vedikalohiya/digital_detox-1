@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'kids_mode_service.dart';
 import 'kids_mode_dashboard.dart';
 import 'kids_overlay_service.dart';
+import 'app_theme.dart';
 
 /// Setup screen for Kids Mode
 /// Parents set PIN and timer duration
@@ -173,7 +174,7 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.purple.shade400, Colors.pink.shade400],
+            colors: [AppTheme.softTeal, AppTheme.accentTeal],
           ),
         ),
         child: SafeArea(
@@ -248,7 +249,7 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
                     onPressed: _pinSet ? _startKidsMode : _savePin,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: Colors.purple,
+                      foregroundColor: AppTheme.primaryDeepTeal,
                       padding: EdgeInsets.symmetric(vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -300,7 +301,7 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
             child: Text(
               '$number',
               style: TextStyle(
-                color: Colors.purple,
+                color: AppTheme.primaryDeepTeal,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -338,14 +339,14 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
         children: [
           Row(
             children: [
-              Icon(Icons.security, color: Colors.purple, size: 30),
+              Icon(Icons.security, color: AppTheme.primaryDeepTeal, size: 30),
               SizedBox(width: 10),
               Text(
                 'Set Parent PIN',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: AppTheme.primaryDeepTeal,
                 ),
               ),
             ],
@@ -409,21 +410,18 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.orange.shade50,
+              color: AppTheme.lightTeal.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.orange.shade200),
+              border: Border.all(color: AppTheme.accentTeal.withOpacity(0.3)),
             ),
             child: Row(
               children: [
-                Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                Icon(Icons.info_outline, color: AppTheme.accentTeal, size: 20),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     'Remember this PIN! You\'ll need it to unlock the device.',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.orange.shade900,
-                    ),
+                    style: TextStyle(fontSize: 12, color: AppTheme.darkTeal),
                   ),
                 ),
               ],
@@ -453,14 +451,14 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
         children: [
           Row(
             children: [
-              Icon(Icons.timer, color: Colors.purple, size: 30),
+              Icon(Icons.timer, color: AppTheme.primaryDeepTeal, size: 30),
               SizedBox(width: 10),
               Text(
                 'Set Screen Time',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: AppTheme.primaryDeepTeal,
                 ),
               ),
             ],
@@ -484,7 +482,7 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
                   style: TextStyle(
                     fontSize: 72,
                     fontWeight: FontWeight.bold,
-                    color: Colors.purple,
+                    color: AppTheme.primaryDeepTeal,
                   ),
                 ),
                 Text(
@@ -503,7 +501,7 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
             min: 2,
             max: 180,
             divisions: 178,
-            activeColor: Colors.purple,
+            activeColor: AppTheme.primaryDeepTeal,
             label: '$_selectedMinutes min',
             onChanged: (value) {
               setState(() {
@@ -530,11 +528,11 @@ class _KidsModeSetupState extends State<KidsModeSetup> {
                     });
                   }
                 },
-                selectedColor: Colors.purple,
+                selectedColor: AppTheme.primaryDeepTeal,
                 labelStyle: TextStyle(
                   color: _selectedMinutes == minutes
                       ? Colors.white
-                      : Colors.purple,
+                      : AppTheme.primaryDeepTeal,
                   fontWeight: FontWeight.bold,
                 ),
               );

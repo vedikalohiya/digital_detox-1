@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'app_theme.dart';
 
 class JournalPage extends StatefulWidget {
   const JournalPage({super.key});
@@ -64,13 +65,13 @@ class _JournalPageState extends State<JournalPage> {
   @override
   Widget build(BuildContext context) {
     final bgGradient = LinearGradient(
-      colors: [Color(0xFFE0F7FA), Color(0xFFF5F5DC)],
+      colors: [AppTheme.lightTeal.withOpacity(0.2), AppTheme.coolWhite],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5DC),
+      backgroundColor: AppTheme.coolWhite,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -78,13 +79,13 @@ class _JournalPageState extends State<JournalPage> {
         title: const Text(
           "My Journal",
           style: TextStyle(
-            color: Color(0xFF2E9D8A),
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
             fontSize: 26,
             letterSpacing: 1.2,
           ),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF2E9D8A)),
+        iconTheme: IconThemeData(color: AppTheme.primaryDeepTeal),
       ),
       body: Container(
         decoration: BoxDecoration(gradient: bgGradient),
@@ -115,12 +116,15 @@ class _JournalPageState extends State<JournalPage> {
                     children: [
                       Row(
                         children: const [
-                          Icon(Icons.lightbulb, color: Color(0xFF2E9D8A)),
+                          Icon(
+                            Icons.lightbulb,
+                            color: AppTheme.primaryDeepTeal,
+                          ),
                           SizedBox(width: 8),
                           Text(
                             "Prompt for you:",
                             style: TextStyle(
-                              color: Color(0xFF2E9D8A),
+                              color: AppTheme.primaryDeepTeal,
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
@@ -131,7 +135,7 @@ class _JournalPageState extends State<JournalPage> {
                       Text(
                         _currentPrompt,
                         style: TextStyle(
-                          color: Colors.teal.shade700,
+                          color: AppTheme.darkTeal,
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
                         ),
@@ -145,7 +149,7 @@ class _JournalPageState extends State<JournalPage> {
                         decoration: InputDecoration(
                           hintText: "Write your thoughts here...",
                           hintStyle: TextStyle(
-                            color: Colors.teal.shade200,
+                            color: AppTheme.softTeal.withOpacity(0.5),
                             fontStyle: FontStyle.italic,
                           ),
                           border: InputBorder.none,
@@ -165,7 +169,7 @@ class _JournalPageState extends State<JournalPage> {
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E9D8A),
+                backgroundColor: AppTheme.primaryDeepTeal,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 36,
@@ -186,7 +190,7 @@ class _JournalPageState extends State<JournalPage> {
                       children: [
                         const Icon(
                           Icons.self_improvement,
-                          color: Color(0xFFB2DFDB),
+                          color: AppTheme.lightTeal,
                           size: 60,
                         ),
                         const SizedBox(height: 12),
@@ -194,7 +198,7 @@ class _JournalPageState extends State<JournalPage> {
                           "No entries yet.\nStart journaling to relax your mind 🌱",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.teal.shade300,
+                            color: AppTheme.accentTeal,
                             fontSize: 17,
                             fontStyle: FontStyle.italic,
                           ),
@@ -222,10 +226,10 @@ class _JournalPageState extends State<JournalPage> {
                         ),
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: const Color(0xFFB2DFDB),
+                            backgroundColor: AppTheme.lightTeal,
                             child: const Icon(
                               Icons.note_rounded,
-                              color: Color(0xFF2E9D8A),
+                              color: AppTheme.primaryDeepTeal,
                             ),
                           ),
                           title: Text(
@@ -251,7 +255,7 @@ class _JournalPageState extends State<JournalPage> {
                                   child: Text(
                                     "Prompt: ${_entries[i]["prompt"]!}",
                                     style: TextStyle(
-                                      color: Colors.teal.shade300,
+                                      color: AppTheme.accentTeal,
                                       fontSize: 12,
                                       fontStyle: FontStyle.italic,
                                     ),

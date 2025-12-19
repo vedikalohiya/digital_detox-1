@@ -9,9 +9,11 @@ import 'detox_buddy_service.dart';
 import 'database_helper.dart';
 import 'detox_buddy_activity_service.dart';
 import 'activity_enhancements.dart';
+import 'app_theme.dart';
 
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+// Using AppTheme colors for consistency
+const Color kPrimaryColor = AppTheme.primaryDeepTeal;
+const Color kBackgroundColor = AppTheme.coolWhite;
 
 class DetoxBuddyPage extends StatefulWidget {
   const DetoxBuddyPage({super.key});
@@ -593,7 +595,9 @@ class _DetoxBuddyPageState extends State<DetoxBuddyPage>
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: (currentUserId != null && currentUserId!.startsWith('local_'))
+                onPressed:
+                    (currentUserId != null &&
+                        currentUserId!.startsWith('local_'))
                     ? null // Disable for local users
                     : () {
                         if (emailController.text.trim().isNotEmpty) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'kids_mode_service.dart';
 import 'kids_blocking_screen.dart';
+import 'app_theme.dart';
 
 /// Simplified dashboard for Kids Mode
 /// Shows large timer display and simple UI - no access to settings
@@ -84,9 +85,9 @@ class _KidsModeDashboardState extends State<KidsModeDashboard>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.purple.shade100,
-              Colors.blue.shade100,
-              Colors.pink.shade100,
+              AppTheme.lightTeal.withOpacity(0.3),
+              AppTheme.accentTeal.withOpacity(0.2),
+              AppTheme.softTeal.withOpacity(0.3),
             ],
           ),
         ),
@@ -191,7 +192,7 @@ class _KidsModeDashboardState extends State<KidsModeDashboard>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Colors.purple.shade700,
+                  color: AppTheme.primaryDeepTeal,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -263,7 +264,7 @@ class _KidsModeDashboardState extends State<KidsModeDashboard>
       ),
       child: Column(
         children: [
-          Icon(icon, color: Colors.purple.shade700, size: 30),
+          Icon(icon, color: AppTheme.primaryDeepTeal, size: 30),
           SizedBox(height: 5),
           Text(
             label,
@@ -275,7 +276,7 @@ class _KidsModeDashboardState extends State<KidsModeDashboard>
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.purple.shade700,
+              color: AppTheme.primaryDeepTeal,
             ),
           ),
         ],

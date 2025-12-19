@@ -5,9 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
 import 'user_model.dart';
 import 'database_helper.dart';
-
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+import 'app_theme.dart';
 
 enum Gender { male, female, other, undisclosed }
 
@@ -102,9 +100,9 @@ class _SignupPageState extends State<SignupPage> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: kPrimaryColor,
+              primary: AppTheme.primaryDeepTeal,
               onPrimary: Colors.white,
-              onSurface: kPrimaryColor,
+              onSurface: AppTheme.primaryDeepTeal,
             ),
           ),
           child: child!,
@@ -214,7 +212,6 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _signUp() async {
     if (!_isPasswordValid || !_isConfirmValid) return;
 
-
     try {
       // Show loading indicator
       showDialog(
@@ -222,7 +219,7 @@ class _SignupPageState extends State<SignupPage> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return const Center(
-            child: CircularProgressIndicator(color: kPrimaryColor),
+            child: CircularProgressIndicator(color: AppTheme.primaryDeepTeal),
           );
         },
       );
@@ -322,7 +319,7 @@ class _SignupPageState extends State<SignupPage> {
             content: Text(
               'Registration successful! Please log in to continue.',
             ),
-            backgroundColor: kPrimaryColor,
+            backgroundColor: AppTheme.primaryDeepTeal,
           ),
         );
         // Sign out the user so they have to login again (as per user requirement)
@@ -460,7 +457,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: AppTheme.coolWhite,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Column(
@@ -476,8 +473,8 @@ class _SignupPageState extends State<SignupPage> {
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       decoration: BoxDecoration(
                         color: index <= _currentPage
-                            ? kPrimaryColor
-                            : Colors.grey[300],
+                            ? AppTheme.primaryDeepTeal
+                            : AppTheme.softTeal.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -517,13 +514,13 @@ class _SignupPageState extends State<SignupPage> {
                       child: OutlinedButton(
                         onPressed: _previousPage,
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: kPrimaryColor),
+                          side: BorderSide(color: AppTheme.primaryDeepTeal),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Back',
                           style: TextStyle(
-                            color: kPrimaryColor,
+                            color: AppTheme.primaryDeepTeal,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -534,7 +531,7 @@ class _SignupPageState extends State<SignupPage> {
                     child: ElevatedButton(
                       onPressed: _currentPage == 4 ? _signUp : _nextPage,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: kPrimaryColor,
+                        backgroundColor: AppTheme.primaryDeepTeal,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: Text(
@@ -585,17 +582,12 @@ class _SignupPageState extends State<SignupPage> {
 
         TextField(
           controller: _nameController,
-          style: const TextStyle(
-            color: kPrimaryColor,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
           ),
-          decoration: InputDecoration(
+          decoration: AppTheme.inputDecoration(
             labelText: 'Full Name',
-            labelStyle: const TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-            border: const OutlineInputBorder(),
             errorText: nameError,
           ),
         ),
@@ -604,17 +596,12 @@ class _SignupPageState extends State<SignupPage> {
         TextField(
           controller: _phoneController,
           keyboardType: TextInputType.phone,
-          style: const TextStyle(
-            color: kPrimaryColor,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
           ),
-          decoration: InputDecoration(
+          decoration: AppTheme.inputDecoration(
             labelText: 'Phone Number',
-            labelStyle: const TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-            border: const OutlineInputBorder(),
             errorText: phoneError,
           ),
         ),
@@ -645,17 +632,12 @@ class _SignupPageState extends State<SignupPage> {
         TextField(
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
-          style: const TextStyle(
-            color: kPrimaryColor,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
           ),
-          decoration: InputDecoration(
+          decoration: AppTheme.inputDecoration(
             labelText: 'Email Address',
-            labelStyle: const TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-            border: const OutlineInputBorder(),
             errorText: emailError,
           ),
         ),
@@ -665,28 +647,28 @@ class _SignupPageState extends State<SignupPage> {
           controller: _dobController,
           readOnly: true,
           onTap: _pickDate,
-          style: const TextStyle(
-            color: kPrimaryColor,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
           ),
-          decoration: InputDecoration(
-            labelText: 'Date of Birth (DD/MM/YYYY)',
-            labelStyle: const TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-            border: const OutlineInputBorder(),
-            suffixIcon: const Icon(Icons.calendar_today, color: kPrimaryColor),
-            errorText: dobError,
-          ),
+          decoration:
+              AppTheme.inputDecoration(
+                labelText: 'Date of Birth (DD/MM/YYYY)',
+                errorText: dobError,
+              ).copyWith(
+                suffixIcon: Icon(
+                  Icons.calendar_today,
+                  color: AppTheme.primaryDeepTeal,
+                ),
+              ),
         ),
         if (_age != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               'Age: $_age years',
-              style: const TextStyle(
-                color: kPrimaryColor,
+              style: AppTheme.bodyMedium.copyWith(
+                color: AppTheme.primaryDeepTeal,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -708,20 +690,16 @@ class _SignupPageState extends State<SignupPage> {
               color: Colors.grey[300],
               shape: BoxShape.circle,
             ),
-            child: const Center(
+            child: Center(
               child: Icon(Icons.person, size: 60, color: Colors.grey),
             ),
           ),
         ),
         const SizedBox(height: 48),
 
-        const Text(
+        Text(
           'Select Gender',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: kPrimaryColor,
-          ),
+          style: AppTheme.heading3,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
@@ -736,14 +714,14 @@ class _SignupPageState extends State<SignupPage> {
             child: RadioListTile<Gender>(
               title: Text(
                 displayName,
-                style: const TextStyle(
-                  color: kPrimaryColor,
+                style: AppTheme.bodyLarge.copyWith(
+                  color: AppTheme.primaryDeepTeal,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               value: gender,
               groupValue: _selectedGender,
-              activeColor: kPrimaryColor,
+              activeColor: AppTheme.primaryDeepTeal,
               onChanged: (Gender? value) {
                 setState(() {
                   _selectedGender = value;
@@ -786,24 +764,16 @@ class _SignupPageState extends State<SignupPage> {
         ),
         const SizedBox(height: 48),
 
-        const Text(
+        Text(
           'Daily Screen Time Limit',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: kPrimaryColor,
-          ),
+          style: AppTheme.heading3,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
 
         Text(
           '${_screenTime.toStringAsFixed(1)} hours per day',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: kPrimaryColor,
-          ),
+          style: AppTheme.heading4.copyWith(color: AppTheme.primaryDeepTeal),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
@@ -813,8 +783,8 @@ class _SignupPageState extends State<SignupPage> {
           min: 0.5,
           max: 12.0,
           divisions: 23,
-          activeColor: kPrimaryColor,
-          inactiveColor: Colors.grey[300],
+          activeColor: AppTheme.primaryDeepTeal,
+          inactiveColor: AppTheme.softTeal.withOpacity(0.3),
           onChanged: (value) {
             setState(() {
               _screenTime = value;
@@ -823,11 +793,21 @@ class _SignupPageState extends State<SignupPage> {
           },
         ),
 
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('0.5h', style: TextStyle(color: kPrimaryColor)),
-            Text('12h', style: TextStyle(color: kPrimaryColor)),
+            Text(
+              '0.5h',
+              style: AppTheme.bodyMedium.copyWith(
+                color: AppTheme.primaryDeepTeal,
+              ),
+            ),
+            Text(
+              '12h',
+              style: AppTheme.bodyMedium.copyWith(
+                color: AppTheme.primaryDeepTeal,
+              ),
+            ),
           ],
         ),
 
@@ -867,66 +847,63 @@ class _SignupPageState extends State<SignupPage> {
         TextField(
           controller: _passwordController,
           obscureText: _obscurePassword,
-          style: const TextStyle(
-            color: kPrimaryColor,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
           ),
-          decoration: InputDecoration(
-            labelText: 'Password',
-            labelStyle: const TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-            border: const OutlineInputBorder(),
-            errorText: _passwordError,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                color: kPrimaryColor,
+          decoration:
+              AppTheme.inputDecoration(
+                labelText: 'Password',
+                errorText: _passwordError,
+              ).copyWith(
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                    color: AppTheme.primaryDeepTeal,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                ),
               ),
-              onPressed: () {
-                setState(() {
-                  _obscurePassword = !_obscurePassword;
-                });
-              },
-            ),
-          ),
         ),
         const SizedBox(height: 24),
 
         TextField(
           controller: _confirmPasswordController,
           obscureText: _obscureConfirm,
-          style: const TextStyle(
-            color: kPrimaryColor,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.primaryDeepTeal,
             fontWeight: FontWeight.bold,
           ),
-          decoration: InputDecoration(
-            labelText: 'Confirm Password',
-            labelStyle: const TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-            border: const OutlineInputBorder(),
-            errorText: _confirmPasswordError,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscureConfirm ? Icons.visibility : Icons.visibility_off,
-                color: kPrimaryColor,
+          decoration:
+              AppTheme.inputDecoration(
+                labelText: 'Confirm Password',
+                errorText: _confirmPasswordError,
+              ).copyWith(
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureConfirm ? Icons.visibility : Icons.visibility_off,
+                    color: AppTheme.primaryDeepTeal,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureConfirm = !_obscureConfirm;
+                    });
+                  },
+                ),
               ),
-              onPressed: () {
-                setState(() {
-                  _obscureConfirm = !_obscureConfirm;
-                });
-              },
-            ),
-          ),
         ),
         const SizedBox(height: 16),
 
-        const Text(
+        Text(
           'Password Requirements:',
-          style: TextStyle(fontWeight: FontWeight.bold, color: kPrimaryColor),
+          style: AppTheme.bodyMedium.copyWith(
+            fontWeight: FontWeight.bold,
+            color: AppTheme.primaryDeepTeal,
+          ),
         ),
         const SizedBox(height: 8),
 

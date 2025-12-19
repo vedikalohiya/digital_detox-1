@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-const Color kPrimaryColor = Color(0xFF2E9D8A);
+import 'app_theme.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -28,9 +27,9 @@ class _ContactPageState extends State<ContactPage> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Message sent successfully!'),
-          backgroundColor: kPrimaryColor,
+        SnackBar(
+          content: const Text('Message sent successfully!'),
+          backgroundColor: AppTheme.primaryDeepTeal,
         ),
       );
       nameController.clear();
@@ -42,193 +41,207 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      appBar: AppBar(
-        title: const Text(
-          'Contact Us',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: kPrimaryColor,
-        iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Icon(
-                      Icons.contact_mail,
-                      color: kPrimaryColor,
-                      size: 40,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    "Get in Touch",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: kPrimaryColor,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "We'd love to hear from you!",
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
+      body: Container(
+        decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                // Header
+                Row(
                   children: [
-                    TextFormField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        labelText: 'Full Name',
-                        prefixIcon: const Icon(
-                          Icons.person,
-                          color: kPrimaryColor,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: kPrimaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      validator: (value) => value?.isEmpty == true
-                          ? 'Please enter your name'
-                          : null,
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                    const SizedBox(height: 16),
-
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email Address',
-                        prefixIcon: const Icon(
-                          Icons.email,
-                          color: kPrimaryColor,
+                    Expanded(
+                      child: Text(
+                        'Contact Us',
+                        style: AppTheme.heading2.copyWith(
+                          color: Colors.white,
+                          fontSize: 24,
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: kPrimaryColor,
-                            width: 2,
-                          ),
-                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      validator: (value) {
-                        if (value?.isEmpty == true) {
-                          return 'Please enter your email';
-                        }
-                        if (!RegExp(
-                          r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-                        ).hasMatch(value!)) {
-                          return 'Enter a valid email';
-                        }
-                        return null;
-                      },
                     ),
-                    const SizedBox(height: 16),
-
-                    TextFormField(
-                      controller: messageController,
-                      decoration: InputDecoration(
-                        labelText: 'Message',
-                        prefixIcon: const Icon(
-                          Icons.message,
-                          color: kPrimaryColor,
-                        ),
-                        alignLabelWithHint: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: kPrimaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      maxLines: 4,
-                      validator: (value) => value?.isEmpty == true
-                          ? 'Please enter a message'
-                          : null,
-                    ),
-                    const SizedBox(height: 24),
-
-                    _isSending
-                        ? const CircularProgressIndicator(color: kPrimaryColor)
-                        : SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: ElevatedButton.icon(
-                              icon: const Icon(Icons.send, color: Colors.white),
-                              label: const Text(
-                                'Send Message',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: kPrimaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: _isSending ? null : sendEmail,
-                            ),
-                          ),
+                    const SizedBox(width: 48),
                   ],
                 ),
-              ),
-            ),
+                const SizedBox(height: 20),
 
-            const SizedBox(height: 24),
-            Text(
-              "© 2025 Digital Detox App",
-              style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                // Hero Section
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.35),
+                        Colors.white.withOpacity(0.25),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.5),
+                      width: 2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.3),
+                        blurRadius: 15,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Icon(
+                          Icons.contact_mail,
+                          color: AppTheme.darkTeal,
+                          size: 40,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        "Get in Touch",
+                        style: AppTheme.heading2.copyWith(
+                          fontSize: 24,
+                          color: AppTheme.darkTeal,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "We'd love to hear from you!",
+                        style: AppTheme.bodyLarge.copyWith(
+                          fontSize: 16,
+                          color: AppTheme.textPrimary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Form Container
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.4),
+                        Colors.white.withOpacity(0.3),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.5),
+                      width: 2,
+                    ),
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: nameController,
+                          style: AppTheme.bodyLarge,
+                          decoration: AppTheme.inputDecoration(
+                            labelText: 'Full Name',
+                            prefixIcon: Icons.person,
+                          ),
+                          validator: (value) => value?.isEmpty == true
+                              ? 'Please enter your name'
+                              : null,
+                        ),
+                        const SizedBox(height: 16),
+
+                        TextFormField(
+                          controller: emailController,
+                          style: AppTheme.bodyLarge,
+                          decoration: AppTheme.inputDecoration(
+                            labelText: 'Email Address',
+                            prefixIcon: Icons.email,
+                          ),
+                          validator: (value) {
+                            if (value?.isEmpty == true) {
+                              return 'Please enter your email';
+                            }
+                            if (!RegExp(
+                              r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                            ).hasMatch(value!)) {
+                              return 'Enter a valid email';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+
+                        TextFormField(
+                          controller: messageController,
+                          style: AppTheme.bodyLarge,
+                          decoration: AppTheme.inputDecoration(
+                            labelText: 'Message',
+                            prefixIcon: Icons.message,
+                          ),
+                          maxLines: 4,
+                          validator: (value) => value?.isEmpty == true
+                              ? 'Please enter a message'
+                              : null,
+                        ),
+                        const SizedBox(height: 24),
+
+                        _isSending
+                            ? CircularProgressIndicator(
+                                color: AppTheme.primaryDeepTeal,
+                              )
+                            : SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(
+                                    Icons.send,
+                                    color: Colors.white,
+                                  ),
+                                  label: const Text(
+                                    'Send Message',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  style: AppTheme.primaryButtonStyle,
+                                  onPressed: _isSending ? null : sendEmail,
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+                Text(
+                  "© 2025 Digital Detox App",
+                  style: AppTheme.bodySmall.copyWith(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

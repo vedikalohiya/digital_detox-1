@@ -375,4 +375,104 @@ class FirestoreService {
       return null;
     }
   }
+
+  // ============== GAMIFICATION DATA ==============
+
+  /// Save gamification data to Firestore
+  Future<bool> saveGamificationData(Map<String, dynamic> data) async {
+    try {
+      if (!isLoggedIn) return false;
+
+      await _firestore
+          .collection('users')
+          .doc(currentUserId)
+          .collection('gamification')
+          .doc('data')
+          .set(data, SetOptions(merge: true));
+
+      print('✅ Gamification data saved');
+      return true;
+    } catch (e) {
+      print('❌ Error saving gamification data: $e');
+      return false;
+    }
+  }
+
+  /// Get gamification data from Firestore
+  Future<Map<String, dynamic>?> getGamificationData() async {
+    try {
+      if (!isLoggedIn) return null;
+
+      DocumentSnapshot doc = await _firestore
+          .collection('users')
+          .doc(currentUserId)
+          .collection('gamification')
+          .doc('data')
+          .get();
+
+      if (doc.exists) {
+        return doc.data() as Map<String, dynamic>;
+      }
+      return null;
+    } catch (e) {
+      print('❌ Error fetching gamification data: $e');
+      return null;
+    }
+  }
+
+  /// Get leaderboard data
+  Future<List<Map<String, dynamic>>> getLeaderboard({
+    int limit = 100,
+    String metric = 'totalXP',
+  }) async {
+    try {
+      if (!isLoggedIn) return [];
+
+      // Get all users' gamification data
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .limit(limit)
+          .get();
+
+      List<Map<String, dynamic>> leaderboard = [];
+
+      for (var doc in snapshot.docs) {
+        final gamificationDoc = await _firestore
+            .collection('users')
+            .doc(doc.id)
+            .collection('gamification')
+            .doc('data')
+            .get();
+
+        if (gamificationDoc.exists) {
+          final data = gamificationDoc.data() as Map<String, dynamic>;
+          final userProfile = await _firestore
+              .collection('users')
+              .doc(doc.id)
+              .get();
+
+          leaderboard.add({
+            'userId': doc.id,
+            'fullName': userProfile.data()?['fullName'] ?? 'Anonymous',
+            'totalXP': data['totalXP'] ?? 0,
+            'currentLevel': data['currentLevel'] ?? 1,
+            'totalFocusMinutes': data['totalFocusMinutes'] ?? 0,
+            'currentStreak': data['streak']?['currentStreak'] ?? 0,
+          });
+        }
+      }
+
+      // Sort by metric
+      leaderboard.sort((a, b) {
+        final aValue = a[metric] ?? 0;
+        final bValue = b[metric] ?? 0;
+        return (bValue as Comparable).compareTo(aValue);
+      });
+
+      return leaderboard.take(limit).toList();
+    } catch (e) {
+      print('❌ Error fetching leaderboard: $e');
+      return [];
+    }
+  }
 }

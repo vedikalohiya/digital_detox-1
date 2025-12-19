@@ -4,9 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'user_model.dart';
 import 'login.dart';
-
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+import 'app_theme.dart';
 
 class ZoneSelectorPage extends StatefulWidget {
   const ZoneSelectorPage({super.key});
@@ -59,51 +57,79 @@ class _ZoneSelectorPageState extends State<ZoneSelectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: kPrimaryColor))
-          : Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Kids Zone Card
-                    _buildZoneCard(
-                      context: context,
-                      emoji: '🎨',
-                      color: Colors.orange,
-                      gradient: [
-                        Colors.orange.shade400,
-                        Colors.orange.shade600,
-                      ],
-                      onTap: () => _selectZone(UserZone.kids),
-                    ),
+      body: Container(
+        decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
+        child: SafeArea(
+          child: _isLoading
+              ? Center(child: CircularProgressIndicator(color: Colors.white))
+              : Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Title
+                        Text(
+                          'Select Your Zone',
+                          style: AppTheme.heading1.copyWith(
+                            color: Colors.white,
+                            fontSize: 32,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Choose your experience',
+                          style: AppTheme.bodyLarge.copyWith(
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 60),
 
-                    const SizedBox(height: 40),
+                        // Kids Zone Card
+                        _buildZoneCard(
+                          context: context,
+                          emoji: '🎨',
+                          label: 'Kids Zone',
+                          gradient: [AppTheme.softTeal, AppTheme.accentTeal],
+                          onTap: () => _selectZone(UserZone.kids),
+                        ),
 
-                    // Adult Zone Card
-                    _buildZoneCard(
-                      context: context,
-                      emoji: '💼',
-                      color: kPrimaryColor,
-                      gradient: [
-                        const Color(0xFF2E9D8A),
-                        const Color(0xFF1F7A6A),
+                        const SizedBox(height: 40),
+
+                        // Adult Zone Card
+                        _buildZoneCard(
+                          context: context,
+                          emoji: '💼',
+                          label: 'Adult Zone',
+                          gradient: [
+                            AppTheme.primaryDeepTeal,
+                            AppTheme.darkTeal,
+                          ],
+                          onTap: () => _selectZone(UserZone.adult),
+                        ),
                       ],
-                      onTap: () => _selectZone(UserZone.adult),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+        ),
+      ),
     );
   }
 
   Widget _buildZoneCard({
     required BuildContext context,
     required String emoji,
-    required Color color,
+    required String label,
     required List<Color> gradient,
     required VoidCallback onTap,
   }) {
@@ -111,25 +137,52 @@ class _ZoneSelectorPageState extends State<ZoneSelectorPage> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(30),
       child: Container(
-        width: 200,
-        height: 200,
+        width: 220,
+        height: 220,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: gradient,
+            colors: [
+              Colors.white.withOpacity(0.4),
+              Colors.white.withOpacity(0.3),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.4),
+              color: Colors.white.withOpacity(0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
           ],
         ),
-        child: Center(
-          child: Text(emoji, style: const TextStyle(fontSize: 100)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: Text(emoji, style: const TextStyle(fontSize: 60)),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              label,
+              style: AppTheme.heading3.copyWith(
+                fontSize: 20,
+                color: AppTheme.darkTeal,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'dashboard.dart';
 import 'kids_mode_setup.dart';
 import 'parent_pin_service.dart';
+import 'app_theme.dart';
 
 /// Mode selector screen - first screen shown on app launch
 /// Allows user to choose between Adult Mode or Kids Mode
@@ -74,7 +75,7 @@ class _ModeSelectorState extends State<ModeSelector>
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.security, color: Colors.orange),
+            Icon(Icons.security, color: AppTheme.accentTeal),
             SizedBox(width: 10),
             Text('Parent Setup Required'),
           ],
@@ -98,13 +99,13 @@ class _ModeSelectorState extends State<ModeSelector>
             Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.orange.shade50,
+                color: AppTheme.lightTeal.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.orange.shade200),
+                border: Border.all(color: AppTheme.accentTeal.withOpacity(0.3)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning_amber, color: Colors.orange),
+                  Icon(Icons.warning_amber, color: AppTheme.accentTeal),
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -129,7 +130,9 @@ class _ModeSelectorState extends State<ModeSelector>
                 MaterialPageRoute(builder: (context) => KidsModeSetup()),
               );
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryDeepTeal,
+            ),
             child: Text('Continue'),
           ),
         ],
@@ -143,9 +146,9 @@ class _ModeSelectorState extends State<ModeSelector>
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFFF5F5DC), Color(0xFFFFE4B5), Color(0xFFFFF8DC)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF4A8AB8), Color(0xFF2C5F8D)],
           ),
         ),
         child: SafeArea(
@@ -162,8 +165,15 @@ class _ModeSelectorState extends State<ModeSelector>
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2E9D8A),
+                        color: Colors.white,
                         letterSpacing: 1.2,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 60),
@@ -172,10 +182,7 @@ class _ModeSelectorState extends State<ModeSelector>
                     _buildModeCard(
                       animationPath: 'assets/animations/Happy boy.json',
                       label: 'Kids Mode',
-                      gradient: [
-                        Colors.orange.shade400,
-                        Colors.orange.shade700,
-                      ],
+                      gradient: [AppTheme.softTeal, AppTheme.accentTeal],
                       onTap: _selectKidsMode,
                     ),
 
@@ -185,7 +192,7 @@ class _ModeSelectorState extends State<ModeSelector>
                     _buildModeCard(
                       animationPath: 'assets/animations/Female avatar.json',
                       label: 'Adult Mode',
-                      gradient: [Color(0xFF2E9D8A), Color(0xFF1A7A6A)],
+                      gradient: [Color(0xFF2C5F8D), Color(0xFF1E4A6B)],
                       onTap: _selectAdultMode,
                     ),
                   ],

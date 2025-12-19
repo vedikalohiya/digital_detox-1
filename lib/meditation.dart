@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:just_audio/just_audio.dart';
 import 'tts_service.dart'; // TTS disabled but required for compatibility
+import 'app_theme.dart';
 
 class MeditationPage extends StatefulWidget {
   const MeditationPage({super.key});
@@ -43,7 +44,8 @@ class _MeditationPageState extends State<MeditationPage>
 
   // 🔊 Background Sound
   final AudioPlayer _audioPlayer = AudioPlayer();
-  String? _selectedSound = 'assets/sounds/mantra_om.mp3.mp3'; // Default to Mantra (Sweet Voice)
+  String? _selectedSound =
+      'assets/sounds/mantra_om.mp3.mp3'; // Default to Mantra (Sweet Voice)
   double _soundVolume = 0.5;
 
   final Map<String, String> _ambientSounds = {
@@ -116,7 +118,9 @@ class _MeditationPageState extends State<MeditationPage>
     await prefs.setInt('meditation_total_minutes', _totalMinutes);
     await prefs.setInt('meditation_streak', _streakDays);
     await prefs.setInt(
-        'meditation_today_${DateTime.now().day}', _sessionsToday);
+      'meditation_today_${DateTime.now().day}',
+      _sessionsToday,
+    );
   }
 
   // 🔊 Start ambient sound
@@ -310,7 +314,7 @@ class _MeditationPageState extends State<MeditationPage>
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2E9D8A),
+                  backgroundColor: AppTheme.primaryDeepTeal,
                   foregroundColor: Colors.white,
                 ),
                 child: const Text("Done"),
@@ -338,7 +342,7 @@ class _MeditationPageState extends State<MeditationPage>
           "Meditation Center",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFF2E9D8A),
+        backgroundColor: AppTheme.primaryDeepTeal,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
@@ -389,8 +393,8 @@ class _MeditationPageState extends State<MeditationPage>
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          gradient: const LinearGradient(
-            colors: [Color(0xFF2E9D8A), Color(0xFF1B6B5A)],
+          gradient: LinearGradient(
+            colors: [AppTheme.primaryDeepTeal, AppTheme.darkTeal],
           ),
         ),
         child: Row(
@@ -417,10 +421,7 @@ class _MeditationPageState extends State<MeditationPage>
             color: Colors.white,
           ),
         ),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white70),
-        ),
+        Text(label, style: const TextStyle(color: Colors.white70)),
       ],
     );
   }
@@ -429,8 +430,10 @@ class _MeditationPageState extends State<MeditationPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Session Duration",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          "Session Duration",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         Wrap(
           spacing: 10,
           children: List.generate(_durations.length, (index) {
@@ -452,8 +455,10 @@ class _MeditationPageState extends State<MeditationPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Breathing Pattern",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          "Breathing Pattern",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         Wrap(
           spacing: 10,
           children: _breathingPatterns.keys.map((pattern) {
@@ -481,10 +486,7 @@ class _MeditationPageState extends State<MeditationPage>
         const SizedBox(height: 20),
         ScaleTransition(
           scale: _breathingAnimation,
-          child: Lottie.asset(
-            "assets/animations/meditation.json",
-            height: 200,
-          ),
+          child: Lottie.asset("assets/animations/meditation.json", height: 200),
         ),
         const SizedBox(height: 20),
         Text(
@@ -499,7 +501,7 @@ class _MeditationPageState extends State<MeditationPage>
     return ElevatedButton(
       onPressed: _startMeditation,
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF2E9D8A),
+        backgroundColor: AppTheme.primaryDeepTeal,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
       ),
@@ -524,7 +526,7 @@ class _MeditationPageState extends State<MeditationPage>
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text("Close"),
-          )
+          ),
         ],
       ),
     );

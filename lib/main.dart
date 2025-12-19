@@ -6,6 +6,8 @@ import 'landing_page.dart';
 import 'kids_mode_dashboard.dart';
 import 'kids_mode_service.dart';
 import 'kids_overlay_service.dart';
+import 'app_theme.dart';
+import 'gamification_integration.dart';
 
 @pragma("vm:entry-point")
 void overlayMain() {
@@ -27,6 +29,8 @@ void main() async {
   } catch (e) {}
 
   await KidsModeService().initialize();
+  // Initialize gamification service (will only work if user is logged in)
+  GamificationIntegration.initialize();
   runApp(const MyApp());
 }
 
@@ -43,14 +47,17 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Digital Detox App',
+      theme: AppTheme.themeData,
       home: FutureBuilder<bool>(
         future: _checkKidsModeActive(),
         builder: (context, kidsModeSnapshot) {
           // Show loading while checking
           if (kidsModeSnapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(color: Color(0xFF2E9D8A)),
+                child: CircularProgressIndicator(
+                  color: AppTheme.primaryDeepTeal,
+                ),
               ),
             );
           }

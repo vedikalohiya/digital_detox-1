@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'database_helper.dart';
+import 'app_theme.dart';
 
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+// Using AppTheme colors for consistency
+const Color kPrimaryColor = AppTheme.primaryDeepTeal;
+const Color kBackgroundColor = AppTheme.coolWhite;
 
 class MoodTrackerPage extends StatefulWidget {
   const MoodTrackerPage({super.key});
@@ -180,7 +182,7 @@ class _MoodTrackerPageState extends State<MoodTrackerPage>
   late AnimationController _controller;
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
-  
+
   List<Map<String, dynamic>> _moodHistory = [];
   bool _isLoading = true;
 
@@ -198,10 +200,10 @@ class _MoodTrackerPageState extends State<MoodTrackerPage>
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-    
+
     _loadMoods();
   }
-  
+
   Future<void> _loadMoods() async {
     setState(() => _isLoading = true);
     try {
@@ -238,7 +240,7 @@ class _MoodTrackerPageState extends State<MoodTrackerPage>
         'time': formatted,
         'timestamp': now.millisecondsSinceEpoch,
       });
-      
+
       await _loadMoods(); // Refresh the list
 
       if (mounted) {
@@ -271,7 +273,7 @@ class _MoodTrackerPageState extends State<MoodTrackerPage>
         }
       });
     } catch (e) {
-       scaffoldMessenger.showSnackBar(
+      scaffoldMessenger.showSnackBar(
         const SnackBar(
           content: Text("Failed to save mood"),
           backgroundColor: Colors.red,
@@ -338,7 +340,7 @@ class _MoodTrackerPageState extends State<MoodTrackerPage>
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2E9D8A),
+                  color: AppTheme.primaryDeepTeal,
                 ),
               ),
               const SizedBox(height: 20),
@@ -352,93 +354,93 @@ class _MoodTrackerPageState extends State<MoodTrackerPage>
               const SizedBox(height: 20),
 
               Expanded(
-                child: _isLoading 
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(green),
-                    ),
-                  )
-                : _moodHistory.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.mood, size: 64, color: Colors.grey[400]),
-                          const SizedBox(height: 16),
-                          Text(
-                            'No mood entries yet.\nTrack your first mood above!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _moodHistory.length,
-                      itemBuilder: (_, i) {
-                        final data = _moodHistory[i];
-                        final moodKey = data['mood'] as String;
-                        final emoji = moods.containsKey(moodKey)
-                            ? moods[moodKey]!["emoji"]
-                            : "🙂";
-
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
-                                blurRadius: 8,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            leading: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: moods.containsKey(moodKey)
-                                    ? moods[moodKey]!["color"].withValues(
-                                        alpha: 0.1,
-                                      )
-                                    : Colors.grey.withValues(alpha: 0.1),
-                              ),
-                              child: Text(
-                                emoji,
-                                style: const TextStyle(fontSize: 24),
-                              ),
-                            ),
-                            title: Text(
-                              moodKey,
+                child: _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(green),
+                        ),
+                      )
+                    : _moodHistory.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.mood, size: 64, color: Colors.grey[400]),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No mood entries yet.\nTrack your first mood above!',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: moods.containsKey(moodKey)
-                                    ? moods[moodKey]!["color"]
-                                    : Colors.grey[700],
-                              ),
-                            ),
-                            subtitle: Text(
-                              data['time'],
-                              style: TextStyle(
+                                fontSize: 16,
                                 color: Colors.grey[600],
-                                fontSize: 12,
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: _moodHistory.length,
+                        itemBuilder: (_, i) {
+                          final data = _moodHistory[i];
+                          final moodKey = data['mood'] as String;
+                          final emoji = moods.containsKey(moodKey)
+                              ? moods[moodKey]!["emoji"]
+                              : "🙂";
+
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              leading: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: moods.containsKey(moodKey)
+                                      ? moods[moodKey]!["color"].withValues(
+                                          alpha: 0.1,
+                                        )
+                                      : Colors.grey.withValues(alpha: 0.1),
+                                ),
+                                child: Text(
+                                  emoji,
+                                  style: const TextStyle(fontSize: 24),
+                                ),
+                              ),
+                              title: Text(
+                                moodKey,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: moods.containsKey(moodKey)
+                                      ? moods[moodKey]!["color"]
+                                      : Colors.grey[700],
+                                ),
+                              ),
+                              subtitle: Text(
+                                data['time'],
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
               ),
             ],
           ),

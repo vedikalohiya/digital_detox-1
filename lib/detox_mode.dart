@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'detox_timer_service.dart';
 import 'blocking_screen.dart';
+import 'app_theme.dart';
 
-const Color kPrimaryColor = Color(0xFF2E9D8A);
-const Color kBackgroundColor = Color(0xFFF5F5DC);
+// Using AppTheme colors for consistency
+const Color kPrimaryColor = AppTheme.primaryDeepTeal;
+const Color kBackgroundColor = AppTheme.coolWhite;
 
 // App Limit Model
 class AppLimit {
