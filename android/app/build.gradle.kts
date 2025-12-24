@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.digitaldetox.app"
-compileSdk = 36
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
